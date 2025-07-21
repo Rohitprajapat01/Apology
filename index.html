@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Heartfelt Apology</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the apology page */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Pink gradient background */
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* Lighter to darker pink */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Hide overflow for animations */
+            position: relative; /* Needed for absolute positioning of particles */
+        }
+
+        .initial-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+            z-index: 20; /* Ensure it's above the main card initially */
+            transition: opacity 0.8s ease-out;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .welcome-message {
+            color: #d81b60;
+            font-size: 2.8rem; /* Larger welcome message */
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlide 1s ease-out forwards;
+        }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .initial-button {
+            background-color: #ec4899; /* Strong pink */
+            color: white;
+            padding: 20px 40px;
+            border-radius: 25px; /* More rounded */
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            border: none;
+            outline: none;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+            animation: pulse 2s infinite; /* Gentle pulse animation */
+            min-width: 200px; /* Ensure a minimum width for easy tapping */
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards; /* Delayed fade in */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .initial-button:hover {
+            background-color: #db2777; /* Darker pink on hover */
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(236, 72, 153, 0.5);
+        }
+
+        .initial-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .card {
+            background-color: #ffebee; /* Very light pink */
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%; /* Use percentage for fluid width */
+            animation: fadeInScale 1s ease-out forwards;
+            position: relative;
+            z-index: 10;
+            opacity: 0; /* Hidden initially */
+            transform: scale(0.9);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #d81b60; /* Deep pink for emphasis */
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        p {
+            color: #880e4f; /* Darker pink for readability */
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .action-button { /* Unified style for all action buttons */
+            background-color: #f06292; /* Soft pink button */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            border: none;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(240, 98, 146, 0.3);
+            min-width: 180px; /* Ensure a minimum width for easy tapping */
+            margin: 10px; /* Spacing between buttons/content */
+        }
+
+        .action-button:hover {
+            background-color: #e91e63; /* Darker pink on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .action-button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(240, 98, 146, 0.2);
+        }
+
+        /* Specific button colors */
+        .play-audio-button {
+            background-color: #66bb6a; /* Green for play button */
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.3);
+        }
+        .play-audio-button:hover {
+            background-color: #43a047;
+            box-shadow: 0 8px 20px rgba(67, 160, 71, 0.4);
+        }
+        .play-audio-button.playing {
+            background-color: #ef5350; /* Red when playing/stop */
+        }
+        .play-audio-button.playing:hover {
+            background-color: #e53935;
+        }
+
+        .yes-button {
+            background-color: #4CAF50; /* Green for Yes */
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        .yes-button:hover {
+            background-color: #45a049;
+        }
+
+        .no-button {
+            background-color: #f44336; /* Red for No */
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+        }
+        .no-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .phone-number-container, .forgiveness-steps-container, .audio-prompt-container, .forgiveness-question-container {
+            margin-top: 30px;
+            display: none; /* Hidden initially */
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+
+        .phone-number-container.visible, .forgiveness-steps-container.visible, .audio-prompt-container.visible, .forgiveness-question-container.visible {
+            display: flex; /* Show when visible */
+            opacity: 1;
+        }
+
+        .phone-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d81b60;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .forgiveness-steps-list {
+            list-style: none; /* Remove default list styling */
+            padding: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .forgiveness-steps-list li {
+            background-color: #fff8e1; /* Light yellow for steps */
+            border-left: 5px solid #ffc107; /* Yellow accent */
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            opacity: 0; /* Start hidden for typing effect */
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            font-size: 1rem;
+            color: #6d4c41; /* Brownish color for text */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            min-height: 40px; /* Ensure space for typing effect */
+        }
+
+        .forgiveness-steps-list li.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Audio Progress Bar */
+        #audioProgressBar {
+            width: 80%;
+            height: 8px;
+            appearance: none; /* Remove default styling */
+            -webkit-appearance: none;
+            background-color: #f8bbd0; /* Light pink track */
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden; /* Hide overflow of the filled part */
+        }
+
+        #audioProgressBar::-webkit-progress-bar {
+            background-color: #f8bbd0;
+            border-radius: 5px;
+        }
+
+        #audioProgressBar::-webkit-progress-value {
+            background-color: #e91e63; /* Deep pink fill */
+            border-radius: 5px;
+            transition: width 0.1s linear; /* Smooth fill */
+        }
+
+        #audioProgressBar::-moz-progress-bar {
+            background-color: #e91e63;
+            border-radius: 5px;
+        }
+
+        /* Base particle style */
+        .particle {
+            position: absolute;
+            font-size: 2rem; /* Size of the particles */
+            opacity: 0;
+            pointer-events: none; /* Allow clicks to pass through */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Animation for particles floating up (hearts/stars on forgiveness) */
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5) rotate(0deg);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1) rotate(var(--rotate-deg));
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-300px) scale(1.2) rotate(var(--rotate-deg));
+            }
+        }
+
+        /* Animation for particles raining down (welcome/greeting) */
+        @keyframes rainParticleFall {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.5) rotate(var(--rotate-deg));
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(var(--rotate-deg));
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(1.2) rotate(var(--rotate-deg));
+            }
+        }
+
+        /* Responsive adjustments for smaller screens (e.g., iPhone 14) */
+        @media (max-width: 480px) { /* Targeting smaller phones more specifically */
+            h1 {
+                font-size: 2rem; /* Smaller heading for very small screens */
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 0.95rem; /* Slightly smaller paragraph text */
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+            .card {
+                padding: 25px; /* Reduced padding for more content space */
+                width: 95%; /* Take up more width on very small screens */
+            }
+            .initial-button {
+                font-size: 1.1rem;
+                padding: 15px 25px;
+                min-width: 180px; /* Maintain good tap target */
+            }
+            .action-button {
+                font-size: 1rem;
+                padding: 12px 25px;
+                min-width: 160px; /* Maintain good tap target */
+            }
+            .phone-number {
+                font-size: 2rem;
+            }
+            .forgiveness-steps-list li {
+                font-size: 0.9rem;
+            }
+            .particle {
+                font-size: 1.5rem; /* Smaller particles for less clutter on mobile */
+            }
+            .welcome-message {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) { /* For tablets and larger phones */
+            h1 {
+                font-size: 2.5rem;
+            }
+            p {
+                font-size: 1.1rem;
+            }
+            .card {
+                padding: 30px;
+            }
+            .initial-button {
+                font-size: 1.3rem;
+                padding: 18px 35px;
+            }
+            .action-button {
+                font-size: 1.05rem;
+                padding: 14px 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Initial button container -->
+    <div id="initialContainer" class="initial-container">
+        <div id="welcomeMessage" class="welcome-message">Welcome, [Her Name]!</div>
+        <button id="initialBtn" class="initial-button">Click Me to Start!</button>
+    </div>
+
+    <div id="mainCard" class="card">
+        <!-- Dynamic Greeting Section -->
+        <div id="dynamicGreetingContainer" class="audio-prompt-container">
+            <p id="timeOfDayGreeting" class="text-gray-700 text-xl font-semibold mb-4 opacity-0 transition-opacity 0.6s ease-out"></p>
+        </div>
+
+        <!-- Audio Prompt Section -->
+        <div id="audioPromptContainer" class="audio-prompt-container">
+            <p class="text-gray-700 text-lg font-semibold">Please listen to my message first:</p>
+            <audio id="apologyAudio" src="1.opus" preload="auto"></audio>
+            <button id="playAudioBtn" class="action-button play-audio-button">Play My Message</button>
+            <progress id="audioProgressBar" value="0" max="100"></progress>
+        </div>
+
+        <!-- Forgiveness Question Section (Initial) -->
+        <div id="forgivenessQuestionContainer" class="forgiveness-question-container">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4">Will you forgive me?</h2>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="yesBtn" class="action-button yes-button">Yes, I Forgive You!</button>
+                <button id="noBtn" class="action-button no-button">No, Not Yet...</button>
+            </div>
+        </div>
+
+        <!-- Phone Number Display Section (after Yes) -->
+        <div id="phoneNumberContainer" class="phone-number-container">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4">Thank you! Call me anytime:</h2>
+            <p class="phone-number">9636987871</p>
+            <p class="text-gray-700 text-lg mt-4">I'm so glad we can move past this. ❤️</p>
+        </div>
+
+        <!-- Forgiveness Steps Section (after No) -->
+        <div id="forgivenessStepsContainer" class="forgiveness-steps-container">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4">Please, give me another chance...</h2>
+            <ul id="forgivenessPhrasesList" class="forgiveness-steps-list">
+                <!-- Phrases will be dynamically added here, one at a time -->
+            </ul>
+            <!-- Iterative Question and buttons within steps -->
+            <div id="iterativeQuestionContainer" class="flex flex-col sm:flex-row gap-4 mt-6" style="display: none;">
+                <h3 class="text-xl font-bold text-pink-600 mb-4 w-full">Still, will you forgive me?</h3>
+                <button id="iterativeYesBtn" class="action-button yes-button">Yes, I Forgive You Now!</button>
+                <button id="iterativeNoBtn" class="action-button no-button">No</button>
+            </div>
+
+            <button id="finalReconsiderBtn" class="action-button yes-button mt-6" style="display: none;">Okay, I'll Forgive You Now!</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for interactivity
+
+        // Get elements
+        const initialBtn = document.getElementById('initialBtn');
+        const initialContainer = document.getElementById('initialContainer');
+        const welcomeMessage = document.getElementById('welcomeMessage'); // New welcome message element
+        const mainCard = document.getElementById('mainCard');
+        const dynamicGreetingContainer = document.getElementById('dynamicGreetingContainer'); // New container for dynamic greeting
+        const timeOfDayGreeting = document.getElementById('timeOfDayGreeting'); // New element for time-based greeting
+        const audioPromptContainer = document.getElementById('audioPromptContainer');
+        const apologyAudio = document.getElementById('apologyAudio');
+        const playAudioBtn = document.getElementById('playAudioBtn');
+        const audioProgressBar = document.getElementById('audioProgressBar');
+        const forgivenessQuestionContainer = document.getElementById('forgivenessQuestionContainer');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const phoneNumberContainer = document.getElementById('phoneNumberContainer');
+        const forgivenessStepsContainer = document.getElementById('forgivenessStepsContainer');
+        const forgivenessPhrasesList = document.getElementById('forgivenessPhrasesList');
+        const iterativeQuestionContainer = document.getElementById('iterativeQuestionContainer');
+        const iterativeYesBtn = document.getElementById('iterativeYesBtn');
+        const iterativeNoBtn = document.getElementById('iterativeNoBtn');
+        const finalReconsiderBtn = document.getElementById('finalReconsiderBtn');
+
+        let isAudioPlaying = false;
+        let currentPhraseIndex = 0;
+
+        // Array of 20 forgiveness phrases for the "No" path
+        const forgivenessPhrases = [
+            "I truly regret my actions.",
+            "My heart aches knowing I've hurt you.",
+            "You mean more to me than words can express.",
+            "I'm genuinely sorry for my mistake.",
+            "Please believe I never meant to cause you pain.",
+            "Our friendship is too important to me.",
+            "I've learned a valuable lesson from this.",
+            "I promise to do better in the future.",
+            "I miss our bond more than anything.",
+            "Your forgiveness would mean the world.",
+            "I value you immensely, always have.",
+            "I'm willing to do whatever it takes to make amends.",
+            "Please don't let this come between us.",
+            "I'm ready to listen and understand.",
+            "My apologies are sincere and deep.",
+            "I hope you can see how much I regret this.",
+            "I cherish every moment of our friendship.",
+            "Let's talk and work this out.",
+            "I truly hope for a fresh start.",
+            "Please, my dear friend, forgive me."
+        ];
+
+        // Function to determine time of day greeting
+        function getGreeting() {
+            const hour = new Date().getHours();
+            // Only use the specified heart emojis for all greetings
+            const heartEmojis = ['💕', '💞', '💓'];
+            if (hour >= 5 && hour < 12) { // 5 AM to 11:59 AM
+                return { text: "Good Morning, [Her Name]!", emojis: heartEmojis };
+            } else if (hour >= 12 && hour < 18) { // 12 PM to 5:59 PM
+                return { text: "Good Afternoon, [Her Name]!", emojis: heartEmojis };
+            } else { // 6 PM to 4:59 AM
+                return { text: "Good Evening, [Her Name]!", emojis: heartEmojis };
+            }
+        }
+
+        // Function to handle showing the phone number and confetti
+        function showPhoneNumberScreen() {
+            // Hide all other containers
+            forgivenessQuestionContainer.style.opacity = '0';
+            forgivenessStepsContainer.style.opacity = '0';
+            iterativeQuestionContainer.style.opacity = '0';
+            finalReconsiderBtn.style.opacity = '0';
+            dynamicGreetingContainer.style.opacity = '0'; // Hide dynamic greeting
+            audioPromptContainer.style.opacity = '0'; // Hide audio prompt
+
+            setTimeout(() => {
+                forgivenessQuestionContainer.style.display = 'none';
+                forgivenessStepsContainer.style.display = 'none';
+                iterativeQuestionContainer.style.display = 'none';
+                finalReconsiderBtn.style.display = 'none';
+                dynamicGreetingContainer.style.display = 'none';
+                audioPromptContainer.style.display = 'none';
+                phoneNumberContainer.classList.add('visible');
+            }, 600);
+            createParticles(['💕', '💞', '💓'], 100, 'floatUp'); // Even more hearts for acceptance!
+        }
+
+        // Event listener for the initial button
+        initialBtn.addEventListener('click', () => {
+            // Hide the initial button container
+            initialContainer.style.opacity = '0';
+            setTimeout(() => {
+                initialContainer.style.display = 'none'; // Completely remove after fade
+            }, 800); // Match transition duration
+
+            // Show the main card
+            mainCard.classList.add('visible');
+
+            // Show dynamic greeting first, then audio prompt
+            dynamicGreetingContainer.classList.add('visible');
+            const greetingData = getGreeting();
+            timeOfDayGreeting.textContent = greetingData.text; // Set the greeting text
+            timeOfDayGreeting.style.opacity = '1'; // Make it visible
+
+            // Create rain particles for the good morning message (only hearts)
+            createParticles(greetingData.emojis, 80, 'rain'); // Rain down greeting emojis
+
+            setTimeout(() => {
+                audioPromptContainer.classList.add('visible');
+            }, 1500); // Delay audio prompt after greeting
+        });
+
+        // Event listener for the audio play button
+        playAudioBtn.addEventListener('click', () => {
+            if (isAudioPlaying) {
+                apologyAudio.pause();
+                playAudioBtn.textContent = 'Play My Message';
+                playAudioBtn.classList.remove('playing');
+            } else {
+                apologyAudio.play();
+                playAudioBtn.textContent = 'Pause Message';
+                playAudioBtn.classList.add('playing');
+            }
+            isAudioPlaying = !isAudioPlaying;
+        });
+
+        // Update progress bar as audio plays
+        apologyAudio.addEventListener('timeupdate', () => {
+            const percentage = (apologyAudio.currentTime / apologyAudio.duration) * 100;
+            audioProgressBar.value = percentage;
+        });
+
+        // When audio ends, show the forgiveness question
+        apologyAudio.addEventListener('ended', () => {
+            playAudioBtn.textContent = 'Message Played!';
+            playAudioBtn.classList.remove('playing');
+            playAudioBtn.disabled = true; // Disable button after playing
+            isAudioPlaying = false;
+            audioProgressBar.value = 100; // Ensure progress bar is full
+
+            // Hide audio prompt and dynamic greeting, then show forgiveness question
+            audioPromptContainer.style.opacity = '0';
+            dynamicGreetingContainer.style.opacity = '0';
+            setTimeout(() => {
+                audioPromptContainer.style.display = 'none';
+                dynamicGreetingContainer.style.display = 'none';
+                forgivenessQuestionContainer.classList.add('visible');
+            }, 600);
+        });
+
+        // Event listener for "Yes, I Forgive You!" button (initial question)
+        yesBtn.addEventListener('click', showPhoneNumberScreen);
+
+        // Event listener for "No, Not Yet..." button (initial question)
+        noBtn.addEventListener('click', () => {
+            createParticles(['🥺'], 5, 'floatUp'); // Add 🥺 emoji on initial "No"
+            forgivenessQuestionContainer.style.opacity = '0';
+            setTimeout(() => {
+                forgivenessQuestionContainer.style.display = 'none';
+                forgivenessStepsContainer.classList.add('visible');
+                currentPhraseIndex = 0; // Reset index for new "No" path
+                forgivenessPhrasesList.innerHTML = ''; // Clear previous phrases
+                showNextIterativePhrase(); // Show the first phrase and subsequent question
+            }, 600);
+        });
+
+        // Function to display the current forgiveness phrase with typing effect and then the iterative question
+        function showNextIterativePhrase() {
+            // Hide iterative question and final reconsider button initially for new phrase
+            iterativeQuestionContainer.style.display = 'none';
+            finalReconsiderBtn.style.display = 'none';
+            forgivenessPhrasesList.innerHTML = ''; // Clear previous phrase
+
+            if (currentPhraseIndex < forgivenessPhrases.length) {
+                const listItem = document.createElement('li');
+                forgivenessPhrasesList.appendChild(listItem);
+                // Trigger animation for the new list item
+                setTimeout(() => {
+                    listItem.classList.add('visible');
+                }, 50);
+
+                // Implement typing effect
+                let i = 0;
+                const speed = 50; // Typing speed in milliseconds
+                const fullText = `${currentPhraseIndex + 1}. ${forgivenessPhrases[currentPhraseIndex]}`;
+
+                function typeWriter() {
+                    if (i < fullText.length) {
+                        listItem.textContent += fullText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    } else {
+                        // After typing, show the iterative Yes/No question
+                        setTimeout(() => {
+                            iterativeQuestionContainer.classList.add('visible');
+                            iterativeQuestionContainer.style.display = 'flex'; // Ensure it's visible
+                        }, 500); // Small delay after typing finishes
+                    }
+                }
+                typeWriter(); // Start the typing animation
+
+                currentPhraseIndex++; // Move to the next phrase
+            } else {
+                // All phrases have been shown
+                iterativeQuestionContainer.style.display = 'none'; // Hide iterative question
+                finalReconsiderBtn.classList.add('visible'); // Show final reconsider button
+                finalReconsiderBtn.style.display = 'block'; // Ensure it's block for visibility
+            }
+        }
+
+        // Event listener for "Yes, I Forgive You Now!" button (within iterative steps)
+        iterativeYesBtn.addEventListener('click', showPhoneNumberScreen);
+
+        // Event listener for "No" button (within iterative steps)
+        iterativeNoBtn.addEventListener('click', () => {
+            createParticles(['🥺'], 5, 'floatUp'); // Add 🥺 emoji on iterative "No"
+            showNextIterativePhrase(); // Show the next phrase
+        });
+
+        // Event listener for the final "Okay, I'll Forgive You Now!" button
+        finalReconsiderBtn.addEventListener('click', showPhoneNumberScreen);
+
+
+        // Function to create floating particles (hearts only)
+        function createParticles(emojis, count, animationType = 'floatUp') {
+            const colors = ['#ffc0cb', '#ff69b4', '#ff1493', '#c71585', '#f0a0c0', '#e0b0ff']; // Shades of pink
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Pick a random emoji from the provided 'emojis' array
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+                // Random position across the whole page
+                const startX = Math.random() * window.innerWidth;
+                let startY;
+                let animationName;
+
+                if (animationType === 'floatUp') {
+                    startY = window.innerHeight + 20; // Start below viewport
+                    animationName = 'floatUpAndFade';
+                } else { // 'rain' effect
+                    startY = Math.random() * -100 - 50; // Start randomly above viewport
+                    animationName = 'rainParticleFall';
+                }
+
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
+                particle.style.color = colors[Math.floor(Math.random() * colors.length)]; // Random pink color
+
+                // More varied animation duration and delay
+                particle.style.animationDuration = `${Math.random() * 4 + 3}s`; // 3-7 seconds
+                particle.style.animationDelay = `${Math.random() * 1}s`; // 0-1 seconds delay
+
+                // Add random rotation
+                const randomRotation = Math.random() * 720 - 360; // -360 to 360 degrees
+                particle.style.setProperty('--rotate-deg', `${randomRotation}deg`);
+                particle.style.animationName = animationName; // Set the animation name
+
+                document.body.appendChild(particle);
+
+                // Remove particle after animation to prevent DOM clutter
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
+
+        // Initial particle burst when the page loads (only hearts rain down)
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles(['💕', '💞', '💓'], 80, 'rain'); // More hearts raining!
+        });
+
+        // IMPORTANT: Replace "[YOUR_AUDIO_FILE_URL_HERE]" with the actual URL of your audio file!
+        // For example: apologyAudio.src = "https://example.com/my-apology-message.mp3";
+        // Make sure the audio file is accessible online.
+        // You can record a voice note on your phone and upload it to a cloud service (like Google Drive, Dropbox)
+        // or a simple web host, and then get the direct link to the audio file.
+
+        // Remember to replace "[Her Name]" with her actual name before sending the page!
+        // Example: welcomeMessage.textContent = "Welcome, Sarah!";
+        // timeOfDayGreeting.textContent = getGreeting().text.replace("[Her Name]", "Sarah");
+    </script>
+</body>
+</html>
